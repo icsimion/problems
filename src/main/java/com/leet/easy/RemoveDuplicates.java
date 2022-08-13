@@ -1,8 +1,11 @@
 package com.leet.easy;
 
+// https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 public class RemoveDuplicates {
 
     public static void main(String[] args) {
+        int result0 = removeDuplicates(new int[]{1, 1});
+        System.out.println("Index = " + result0); // should be 1;
         int result1 = removeDuplicates(new int[]{1, 2});
         System.out.println("Index = " + result1);
         int result2 = removeDuplicates(new int[]{1, 1, 2});
@@ -19,7 +22,8 @@ public class RemoveDuplicates {
 //        Index = 5
     }
 
-    public static int removeDuplicates(int[] nums) {
+    // my implementation. does not pass tests for result0
+    public static int removeDuplicates0(int[] nums) {
         if (nums.length == 0 || nums.length == 1) {
             return nums.length;
         }
@@ -48,4 +52,43 @@ public class RemoveDuplicates {
         }
         return k + 1;
     }
+
+
+//    https://redquark.org/leetcode/0026-remove-duplicates-from-sorted-array/
+    /**
+     * Approach
+     * One important thing in the question is that the array is sorted. This means that all the duplicate elements will be adjacent to each other. For e.g., in the array [1,2,2,
+     * 3,4,4,4,5,5,6,7], we see all the duplicate elements are adjacent to each other.
+     *
+     * We can use this property of the sorted array containing duplicates to solve this question using the following steps —
+     *
+     * Check if the current and the next element are equal.
+     * If they are, we will skip the next element and will continue the procedure as long as we encounter the duplicates.
+     * If the elements are not duplicate, we will place the next (different) element next to the current element.
+     * Time Complexity
+     * We are scanning the array once, hence the time complexity will be O(n).
+     *
+     * Space Complexity
+     * Since we are forbidden to use the external data structure (and we are not using it 😛), the space complexity will be O(1).
+     */
+    public static int removeDuplicates(int[] nums) {
+        // Length of the updated array
+        int count = 0;
+        // Loop for all the elements in the array
+        for (int i = 0; i < nums.length; i++) {
+            // If the current element is equal to the next element, we skip
+            if (i < nums.length - 1 && nums[i] == nums[i + 1]) {
+                continue;
+            }
+            // We will update the array in place
+            nums[count] = nums[i];
+            count++;
+        }
+        for (int idx = 0; idx < nums.length; idx++) {
+            System.out.print(nums[idx] + ", ");
+        }
+
+        return count;
+    }
+
 }
